@@ -52,3 +52,11 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - run: |
           az keyvault secret set --vault-name ${{ env.KV_NAME }} --name ${{ env.SECRET_NAME }} --value ${{ github.run_number }}
+
+      # Issue workflow dispatch event to trigger Helm chart deployment
+      - name: Invoke workflow in another repo with inputs
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: Math-Trick-3---Chained
+          repo: stevenoneill/Math-Trick-3---Chained 
+          token: ${{ secrets.PAT_GITHUB }}
